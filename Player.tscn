@@ -1,44 +1,167 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=23 format=2]
 
-[ext_resource path="res://Player/Run7.png" type="Texture" id=1]
+[ext_resource path="res://Player/spaceman_run_right.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
-[ext_resource path="res://Player/Idle0.png" type="Texture" id=3]
-[ext_resource path="res://Player/Jump0.png" type="Texture" id=4]
-[ext_resource path="res://Player/Run1.png" type="Texture" id=5]
-[ext_resource path="res://Player/Run0.png" type="Texture" id=6]
-[ext_resource path="res://Player/Run2.png" type="Texture" id=7]
-[ext_resource path="res://Player/Run3.png" type="Texture" id=8]
-[ext_resource path="res://Player/Run4.png" type="Texture" id=9]
+[ext_resource path="res://Player/spaceman_jump.png" type="Texture" id=3]
+[ext_resource path="res://Player/spaceman_space.png" type="Texture" id=4]
+[ext_resource path="res://Player/spaceman_middle-sheet.png" type="Texture" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 15.9211
-height = 31.8186
+radius = 4.74042
+height = 6.95857
+
+[sub_resource type="ParticlesMaterial" id=31]
+lifetime_randomness = 0.94
+emission_shape = 1
+emission_sphere_radius = 0.1
+flag_disable_z = true
+direction = Vector3( -1, 0, 0 )
+spread = 9.82
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 103.44
+initial_velocity_random = 0.16
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = -100.0
+damping = 72.41
+scale = 1.5
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 4 )
+region = Rect2( 16, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 16, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 1 )
+region = Rect2( 16, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 1 )
+region = Rect2( 32, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 1 )
+region = Rect2( 48, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 1 )
+region = Rect2( 80, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 0, 16, 20 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 4 ) ],
-"loop": true,
-"name": "Jump",
-"speed": 10.0
+"frames": [ SubResource( 14 ), SubResource( 13 ) ],
+"loop": false,
+"name": "Space",
+"speed": 12.0
 }, {
-"frames": [ ExtResource( 3 ) ],
+"frames": [ SubResource( 15 ) ],
+"loop": true,
+"name": "Middle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 3 ), SubResource( 4 ) ],
+"loop": false,
+"name": "Jump",
+"speed": 12.0
+}, {
+"frames": [ SubResource( 16 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ],
+"loop": false,
+"name": "Run",
+"speed": 12.0
+}, {
+"frames": [ SubResource( 11 ) ],
 "loop": true,
 "name": "Idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ), ExtResource( 5 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 1 ) ],
+"frames": [ SubResource( 12 ) ],
 "loop": true,
-"name": "Run",
-"speed": 5.0
+"name": "Fall",
+"speed": 10.0
 } ]
 
 [node name="Player" type="KinematicBody2D"]
+position = Vector2( 1.6875, -0.25 )
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
+[node name="ParticlesJetRight" type="Particles2D" parent="."]
+position = Vector2( -7, 1 )
+emitting = false
+amount = 16
+lifetime = 0.2
+speed_scale = 1.2
+explosiveness = 0.11
+randomness = 0.15
+process_material = SubResource( 31 )
+
+[node name="ParticlesJetDown" type="Particles2D" parent="."]
+rotation = 1.5708
+emitting = false
+amount = 16
+lifetime = 0.2
+explosiveness = 0.12
+randomness = 0.38
+process_material = SubResource( 31 )
+
+[node name="ParticlesJetUp" type="Particles2D" parent="."]
+rotation = -1.5708
+emitting = false
+amount = 16
+lifetime = 0.2
+explosiveness = 0.12
+randomness = 0.38
+process_material = SubResource( 31 )
+
+[node name="ParticlesJetLeft" type="Particles2D" parent="."]
+position = Vector2( 7, 1 )
+rotation = 3.14159
+emitting = false
+amount = 16
+lifetime = 0.2
+explosiveness = 0.12
+randomness = 0.38
+process_material = SubResource( 31 )
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
-animation = "Idle"
+animation = "Space"
+frame = 1
 playing = true

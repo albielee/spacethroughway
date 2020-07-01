@@ -1,7 +1,8 @@
 extends KinematicBody2D
 
 var speed = Vector2.ZERO
-var direction = 0
+var xDirection = 1
+var yDirection = 1
 var velocity = Vector2()
 var closestPlanet = null
 var playerRot = 0
@@ -10,12 +11,18 @@ var stateDelay = 0
 
 const MAX_SPEED = 2000
 const MAX_VERTICAL_SPEED = 10000
-const JUMP_SPEED = 10000
+const JUMP_SPEED = 3000
 const ACCELERATION = 50
 const FRICTION = 0.1
 const SPACE_FRICTION = 0.02
+const TurnTowards = preload("res://turn_towards.gd")
 
-onready var child_sprite = $AnimatedSprite
+onready var ANIM = $AnimatedSprite
+onready var particleJetUp = $ParticlesJetUp
+onready var particleJetRight = $ParticlesJetRight
+onready var particleJetLeft = $ParticlesJetLeft
+onready var particleJetDown = $ParticlesJetDown
+onready var turn_towards = TurnTowards.new()
 
 #Left right dir
 enum {
@@ -48,8 +55,15 @@ func _physics_process(delta):
 			
 			#invert y velocity so player moves towards planet centre
 			speed.y = -speed.y
+			speed.x = -speed.x
 	elif(stateDelay == 0):
 		state = SPACE
+
+	#Jet Particles
+	particleJetRight.emitting = false
+	particleJetUp.emitting = false
+	particleJetLeft.emitting = false
+	particleJetDown.emitting = false
 
 	#State delay allows for the certainty of a state changed. This stops the player jumping
 	#between space and planet states at the edge of a planets atmosphere
@@ -74,19 +88,16 @@ func _physics_process(delta):
 	velocity = move_and_slide(velocity, up_direction)
 
 func planetState(delta):
+	applyPlanetJump(delta)
 	applyPlanetMovement(delta)
 	applyPlanetGravity(delta)
-	applyPlanetJump(delta)
 
 	#Rotate player towards planet
 	if(closestPlanet):
 		var planetT = closestPlanet.gravityCentre.get_global_position()
-		var targetDir = get_global_position() - planetT
 		var smoothForce = 500
 		var smooth = smoothForce/(get_global_position().distance_to(closestPlanet.get_global_position()))
-
-		var facing = atan2(targetDir.x, -targetDir.y)
-		playerRot = lerp_angle(playerRot, facing, smooth * delta)
+		playerRot = turn_towards.turn_towards(playerRot, get_global_position(), planetT, smooth * delta)
 	else:
 		playerRot = get_rotation()
 
@@ -94,36 +105,93 @@ func spaceState(delta):
 	applySpaceMovement(delta)
 
 func applySpaceMovement(delta):
-	var xdir = Input.get_action_strength("ui_right")-Input.get_action_strength("ui_left")
-	var ydir = Input.get_action_strength("ui_down")-Input.get_action_strength("ui_up")
-	if(xdir or ydir):
-		speed.x += ACCELERATION * xdir
-		speed.y += ACCELERATION * ydir
+	var just_pressed_right = Input.is_action_just_pressed("ui_right")
+	var just_pressed_left = Input.is_action_just_pressed("ui_left")
+	var just_pressed_up = Input.is_action_just_pressed("ui_up")
+	var just_pressed_down = Input.is_action_just_pressed("ui_down")
+	
+	if(just_pressed_right):
+		if(xDirection != 1):
+			ANIM.frame = 0
+		else:
+			ANIM.frame = 1
+		ANIM.play("Space")
+	if(just_pressed_left):
+		if(xDirection != -1):
+			ANIM.frame = 0
+		else:
+			ANIM.frame = 1
+		ANIM.play("Space")
+	if(just_pressed_down or just_pressed_up):
+		ANIM.play("Space")
+
+	if(Input.get_action_strength("ui_right")):
+		particleJetRight.emitting = true
+		xDirection = 1
+		speed.x += ACCELERATION * xDirection
+	elif(Input.get_action_strength("ui_left")):
+		particleJetLeft.emitting = true
+		xDirection = -1
+		speed.x += ACCELERATION * xDirection
 	else:
 		speed.x = lerp(speed.x, 0, SPACE_FRICTION)
+		
+	if(Input.get_action_strength("ui_down")):
+		particleJetDown.emitting = true
+		yDirection = 1
+		speed.y += ACCELERATION * yDirection
+	elif(Input.get_action_strength("ui_up")):
+		particleJetUp.emitting = true
+		
+		yDirection = -1
+		speed.y += ACCELERATION * yDirection
+	else:
 		speed.y = lerp(speed.y, 0, SPACE_FRICTION)
 
+	ANIM.set_flip_h(1-xDirection)
+	particleJetDown.position = Vector2(-6*xDirection, -2*yDirection)
+	particleJetUp.position = Vector2(-6*xDirection, -2*yDirection)
+
 func applyPlanetMovement(delta):
+	var flr = is_on_floor()
+	
+	if(ANIM.frame ==6):
+		ANIM.frame = 1
+	if(Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right")):
+		ANIM.frame = 0
 	if(Input.is_action_pressed("ui_left")):
-		direction = -1
-		speed.x += ACCELERATION * direction
+		xDirection = -1
+		speed.x += ACCELERATION * xDirection
+		if(flr):
+			ANIM.play("Run")
 	elif(Input.is_action_pressed("ui_right")):
-		direction = 1
-		speed.x += ACCELERATION * direction
+		xDirection = 1
+		speed.x += ACCELERATION * xDirection
+		if(flr):
+			ANIM.play("Run")
 	else:
 		speed.x = lerp(speed.x, 0, FRICTION)
-		
+		if(flr):
+			ANIM.play("Idle")
+	ANIM.set_flip_h(1-xDirection)
 	speed.x = clamp(speed.x, -MAX_SPEED, MAX_SPEED)
 
 func applyPlanetJump(delta):
-	if(is_on_floor()):
+	var flr = is_on_floor()
+	if(flr):
 		if(Input.is_action_pressed("ui_up")):
-			speed.y = -JUMP_SPEED
+			speed.y = -JUMP_SPEED 
+			print(speed.y)
 		else:
-			speed.y += JUMP_SPEED * delta
-				
-	speed.y = clamp(speed.y, -JUMP_SPEED, JUMP_SPEED)
-
+			speed.y += JUMP_SPEED * delta	
+	speed.y = clamp(speed.y, -MAX_VERTICAL_SPEED, MAX_VERTICAL_SPEED)
+	#Animation
+	if(speed.y < 0):
+		ANIM.play("Jump")
+	elif(!flr):
+		ANIM.play("Fall")
+		
+	
 func applyPlanetGravity(delta):
 	if(closestPlanet != null):
 		var pos = get_global_position()
@@ -147,11 +215,3 @@ func get_closest_planet():
 				distance = planet.gravityCentre.get_global_position().distance_to(get_global_position())
 				
 	return foundPlanet
-
-func lerp_angle(from, to, weight):
-	return from + short_angle_dist(from, to) * weight
-
-func short_angle_dist(from, to):
-	var max_angle = PI * 2
-	var difference = fmod(to - from, max_angle)
-	return fmod(2 * difference, max_angle) - difference

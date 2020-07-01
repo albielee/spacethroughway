@@ -1,0 +1,48 @@
+[gd_scene format=2]
+
+[node name="TitleScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -2.5199
+margin_right = -2.5199
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu" type="VBoxContainer" parent="."]
+margin_left = 120.0
+margin_top = 80.0
+margin_right = 1160.0
+margin_bottom = 640.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Logo" type="TextureRect" parent="Menu"]
+margin_right = 1040.0
+
+[node name="CentreRow" type="HBoxContainer" parent="Menu"]
+margin_top = 4.0
+margin_right = 1040.0
+margin_bottom = 560.0
+size_flags_vertical = 3
+
+[node name="Buttons" type="VBoxContainer" parent="Menu/CentreRow"]
+margin_right = 1040.0
+margin_bottom = 556.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NewGame" type="Button" parent="Menu/CentreRow/Buttons"]
+margin_right = 1040.0
+margin_bottom = 20.0
+
+[node name="Label" type="Label" parent="Menu/CentreRow/Buttons/NewGame"]
+margin_right = 40.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "New Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -4,12 +4,12 @@
 [ext_resource path="res://circle.png" type="Texture" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 16.1278
+radius = 16.5936
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 46.1395
 
-[node name="Planet" type="StaticBody2D" groups=[
+[node name="Planet" type="RigidBody2D" groups=[
 "Planet",
 ]]
 script = ExtResource( 1 )

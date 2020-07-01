@@ -1,21 +1,18 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://New Piskel.png" type="Texture" id=2]
 [ext_resource path="res://JungleDirtTileSet.tres" type="TileSet" id=3]
 [ext_resource path="res://Planet.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Camera.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 15.4854, 15.203 )
 
 [node name="World" type="Node"]
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( -187.031, -102.308 )
-
 [node name="Platform" type="StaticBody2D" parent="."]
-position = Vector2( 398.091, 280.257 )
-scale = Vector2( 50, 1 )
+position = Vector2( -295.89, -63.9058 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -26,18 +23,16 @@ shape = SubResource( 1 )
 [node name="Sprite" type="Sprite" parent="Platform"]
 texture = ExtResource( 2 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
-current = true
-smoothing_enabled = true
+[node name="Camera2D" parent="." instance=ExtResource( 5 )]
+position = Vector2( -188.813, -129.035 )
+rotating = true
+zoom = Vector2( 0.2, 0.2 )
 
-[node name="Planet" parent="." instance=ExtResource( 4 )]
-position = Vector2( 78.8413, -117.932 )
+[node name="TopLeft" parent="Camera2D/Limits" index="0"]
+position = Vector2( -1578.76, -1161.96 )
 
-[node name="Planet2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 4.26404, 142.635 )
-
-[node name="Planet3" parent="." instance=ExtResource( 4 )]
-position = Vector2( -149.223, -46.122 )
+[node name="BottomRight" parent="Camera2D/Limits" index="1"]
+position = Vector2( 1764.57, 1156.21 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 3 )
@@ -46,3 +41,25 @@ format = 1
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="Planet" parent="." instance=ExtResource( 4 )]
+position = Vector2( -188.025, -100.373 )
+effectRadius = 40
+orbitRadius = 0
+
+[node name="Planet2" parent="." instance=ExtResource( 4 )]
+position = Vector2( -76.9067, -117.041 )
+effectRadius = 40
+orbitRadius = 40
+
+[node name="Planet3" parent="." instance=ExtResource( 4 )]
+position = Vector2( -126.797, -26.1691 )
+effectRadius = 40
+orbitRadius = 0
+
+[node name="Player" parent="." groups=[
+"Player",
+] instance=ExtResource( 1 )]
+position = Vector2( -188.813, -129.035 )
+
+[editable path="Camera2D"]
