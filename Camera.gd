@@ -20,13 +20,6 @@ func _ready():
 	limit_right = bottomRight.position.x
 	
 func _physics_process(delta):
-	#viewport.rotated(player[0].rotation)
-	#set_global_transform(Transform2D(player[0].rotation, player[0].get_global_position()))
-	#print(player[0].rotation)
 	set_global_position(player[0].get_global_position())
 	rot = turn_towards.rot_towards(rot, player[0].get_rotation(), delta)
-	#rotation = lerp(rotation, player[0].rotation, maxRotateSpeed)
-	#print(rot)
-	print(get_global_position()-player[0].get_global_position())
 	set_rotation(rot)
-	#rotate(player[0].rotation)

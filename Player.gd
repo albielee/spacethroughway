@@ -54,8 +54,10 @@ func _physics_process(delta):
 			closestPlanet = nextPlanet
 			
 			#invert y velocity so player moves towards planet centre
-			speed.y = -speed.y
-			speed.x = -speed.x
+			if(speed.y < 0):
+				speed.y = -speed.y
+			if(speed.x < 0):
+				speed.x = -speed.x
 	elif(stateDelay == 0):
 		state = SPACE
 
@@ -181,7 +183,6 @@ func applyPlanetJump(delta):
 	if(flr):
 		if(Input.is_action_pressed("ui_up")):
 			speed.y = -JUMP_SPEED 
-			print(speed.y)
 		else:
 			speed.y += JUMP_SPEED * delta	
 	speed.y = clamp(speed.y, -MAX_VERTICAL_SPEED, MAX_VERTICAL_SPEED)
@@ -195,7 +196,7 @@ func applyPlanetJump(delta):
 func applyPlanetGravity(delta):
 	if(closestPlanet != null):
 		var pos = get_global_position()
-		if(closestPlanet.is_in_gravity_field(pos)):
+		if(closestPlanet.is_in_gravity_field(pos) and !is_on_floor()):
 			speed.y += closestPlanet.gravityForce / (pos.distance_to(closestPlanet.get_global_position())-closestPlanet.radius)
 
 func get_gravity_vector(planet):

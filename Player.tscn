@@ -10,7 +10,7 @@
 radius = 4.74042
 height = 6.95857
 
-[sub_resource type="ParticlesMaterial" id=31]
+[sub_resource type="ParticlesMaterial" id=2]
 lifetime_randomness = 0.94
 emission_shape = 1
 emission_sphere_radius = 0.1
@@ -26,90 +26,90 @@ linear_accel = -100.0
 damping = 72.41
 scale = 1.5
 
-[sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 4 )
-region = Rect2( 16, 0, 16, 20 )
-
-[sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 16, 20 )
-
-[sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 16, 20 )
-
 [sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 16, 20 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 3 )
-region = Rect2( 16, 0, 16, 20 )
-
-[sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 16, 20 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 16, 20 )
-
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 16, 0, 16, 20 )
 
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 16, 20 )
+
 [sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 1 )
-region = Rect2( 32, 0, 16, 20 )
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 16, 20 )
 
 [sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 1 )
-region = Rect2( 48, 0, 16, 20 )
+atlas = ExtResource( 3 )
+region = Rect2( 16, 0, 16, 20 )
 
 [sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 1 )
-region = Rect2( 64, 0, 16, 20 )
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 16, 20 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 1 )
-region = Rect2( 80, 0, 16, 20 )
-
-[sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 16, 20 )
 
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 1 )
+region = Rect2( 16, 0, 16, 20 )
+
 [sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 1 )
+region = Rect2( 32, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 1 )
+region = Rect2( 48, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 1 )
+region = Rect2( 80, 0, 16, 20 )
+
+[sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 3 )
 region = Rect2( 32, 0, 16, 20 )
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=17]
 animations = [ {
-"frames": [ SubResource( 14 ), SubResource( 13 ) ],
-"loop": false,
-"name": "Space",
-"speed": 12.0
-}, {
-"frames": [ SubResource( 15 ) ],
+"frames": [ SubResource( 3 ) ],
 "loop": true,
 "name": "Middle",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 3 ), SubResource( 4 ) ],
-"loop": false,
-"name": "Jump",
-"speed": 12.0
-}, {
-"frames": [ SubResource( 16 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ],
-"loop": false,
-"name": "Run",
-"speed": 12.0
-}, {
-"frames": [ SubResource( 11 ) ],
+"frames": [ SubResource( 4 ) ],
 "loop": true,
 "name": "Idle",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 12 ) ],
+"frames": [ SubResource( 5 ), SubResource( 6 ) ],
+"loop": false,
+"name": "Space",
+"speed": 12.0
+}, {
+"frames": [ SubResource( 7 ), SubResource( 8 ) ],
+"loop": false,
+"name": "Jump",
+"speed": 12.0
+}, {
+"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
+"loop": false,
+"name": "Run",
+"speed": 12.0
+}, {
+"frames": [ SubResource( 16 ) ],
 "loop": true,
 "name": "Fall",
 "speed": 10.0
@@ -130,7 +130,7 @@ lifetime = 0.2
 speed_scale = 1.2
 explosiveness = 0.11
 randomness = 0.15
-process_material = SubResource( 31 )
+process_material = SubResource( 2 )
 
 [node name="ParticlesJetDown" type="Particles2D" parent="."]
 rotation = 1.5708
@@ -139,7 +139,7 @@ amount = 16
 lifetime = 0.2
 explosiveness = 0.12
 randomness = 0.38
-process_material = SubResource( 31 )
+process_material = SubResource( 2 )
 
 [node name="ParticlesJetUp" type="Particles2D" parent="."]
 rotation = -1.5708
@@ -148,7 +148,7 @@ amount = 16
 lifetime = 0.2
 explosiveness = 0.12
 randomness = 0.38
-process_material = SubResource( 31 )
+process_material = SubResource( 2 )
 
 [node name="ParticlesJetLeft" type="Particles2D" parent="."]
 position = Vector2( 7, 1 )
@@ -158,10 +158,10 @@ amount = 16
 lifetime = 0.2
 explosiveness = 0.12
 randomness = 0.38
-process_material = SubResource( 31 )
+process_material = SubResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 2 )
+frames = SubResource( 17 )
 animation = "Space"
 frame = 1
 playing = true
