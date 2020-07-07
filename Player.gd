@@ -8,6 +8,8 @@ var closestPlanet = null
 var playerRot = 0
 var state = 0 #0 = on planet gravity
 var stateDelay = 0
+var pickup = false
+var pickupObject = null
 
 const MAX_SPEED = 2000
 const MAX_VERTICAL_SPEED = 10000
@@ -72,11 +74,32 @@ func _physics_process(delta):
 	if(stateDelay > 0):
 		stateDelay -= 1
 	
+	#movement for space or planet
 	match(state):
 		PLANET:
 			planetState(delta)
 		SPACE:
 			spaceState(delta)
+
+	#Get up direction so that the floor can be determined based on rotation
+	var up_direction = Vector2(sin(playerRot), -cos(playerRot))
+
+	#toggle pickup
+	if(Input.is_action_just_pressed("pickup")):
+		if(pickupObject != null):
+			pickup = !pickup
+
+	#Apply pickup
+	if(pickupObject != null):
+		if(pickup):
+			pickupObject.set_rotation(rotation)
+			pickupObject.global_transform.origin = Vector2(0,0)
+			$PickupSprite.set_texture(pickupObject.sprite.get_texture())#global_transform.origin = Vector2(globOrigin.x + 10 * sin(playerRot+90), globOrigin.y + 10 * -cos(playerRot+90))
+		elif(pickup == false):
+			$PickupSprite.set_texture(null)
+			pickupObject.global_transform.origin = get_global_transform().get_origin()
+			pickupObject = null
+		
 
 	#Set rotation and rotation of velocity vector
 	velocity = Vector2(speed.x * delta, speed.y * delta)
@@ -85,8 +108,6 @@ func _physics_process(delta):
 	#Set player rotation
 	set_rotation(playerRot)
 
-	#Get up direction so that the floor can be determined based on rotation
-	var up_direction = Vector2(sin(playerRot), -cos(playerRot))
 	velocity = move_and_slide(velocity, up_direction)
 
 func planetState(delta):
@@ -175,6 +196,7 @@ func applyPlanetMovement(delta):
 		speed.x = lerp(speed.x, 0, FRICTION)
 		if(flr):
 			ANIM.play("Idle")
+			speed.y = lerp(speed.y, 0, FRICTION)
 	ANIM.set_flip_h(1-xDirection)
 	speed.x = clamp(speed.x, -MAX_SPEED, MAX_SPEED)
 
@@ -216,3 +238,5 @@ func get_closest_planet():
 				distance = planet.gravityCentre.get_global_position().distance_to(get_global_position())
 				
 	return foundPlanet
+
+

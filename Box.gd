@@ -10,6 +10,7 @@ var inSpace = true
 const TurnTowards = preload("res://turn_towards.gd")
 
 onready var turn_towards = TurnTowards.new()
+onready var sprite = $Sprite
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -32,7 +33,7 @@ func _physics_process(delta):
 		velocity.x = clamp(velocity.x, -maxV, maxV)
 		velocity.y = clamp(velocity.y, -maxV, maxV)
 		velocity = velocity.rotated(rot)
-		#Rotate player towards planet
+		
 		if(closestPlanet):
 			var planetT = closestPlanet.gravityCentre.get_global_position()
 			var smoothForce = 500

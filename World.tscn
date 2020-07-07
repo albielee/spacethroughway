@@ -1,96 +1,22 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Planet.gd" type="Script" id=2]
+[ext_resource path="res://EnergyDispencer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://JungleDirtTileSet.tres" type="TileSet" id=3]
 [ext_resource path="res://Planet.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Camera.tscn" type="PackedScene" id=5]
 [ext_resource path="res://space_background.png" type="Texture" id=6]
 [ext_resource path="res://Box.tscn" type="PackedScene" id=7]
 [ext_resource path="res://nebula_1.png" type="Texture" id=8]
-[ext_resource path="res://Planets/planet_front-sheet.png" type="Texture" id=9]
-[ext_resource path="res://Planets/planet-sheet.png" type="Texture" id=10]
-[ext_resource path="res://Planets/planet_medium_back.png" type="Texture" id=11]
-[ext_resource path="res://Planets/planet_medium_front.png" type="Texture" id=12]
-
-[sub_resource type="CircleShape2D" id=1]
-radius = 32.0
-
-[sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 11 )
-region = Rect2( 0, 0, 68, 68 )
-
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 10 )
-region = Rect2( 0, 0, 38, 38 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 10 )
-region = Rect2( 38, 0, 38, 38 )
-
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 10 )
-region = Rect2( 76, 0, 38, 38 )
-
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 10 )
-region = Rect2( 114, 0, 38, 38 )
-
-[sub_resource type="SpriteFrames" id=7]
-animations = [ {
-"frames": [ SubResource( 15 ) ],
-"loop": true,
-"name": "Medium",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
-"loop": true,
-"name": "Small",
-"speed": 0.0
-} ]
-
-[sub_resource type="CircleShape2D" id=2]
-radius = 46.1395
-
-[sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 0, 68, 68 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 9 )
-region = Rect2( 0, 0, 38, 38 )
-
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 9 )
-region = Rect2( 38, 0, 38, 38 )
-
-[sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 9 )
-region = Rect2( 76, 0, 38, 38 )
-
-[sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 9 )
-region = Rect2( 114, 0, 38, 38 )
-
-[sub_resource type="SpriteFrames" id=12]
-animations = [ {
-"frames": [ SubResource( 14 ) ],
-"loop": true,
-"name": "Medium",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
-"loop": true,
-"name": "Small",
-"speed": 0.0
-} ]
+[ext_resource path="res://Sun.tscn" type="PackedScene" id=13]
 
 [node name="World" type="Node"]
 
 [node name="StarsBackground" type="Sprite" parent="."]
+position = Vector2( 28.0005, -0.000244141 )
 texture = ExtResource( 6 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 4080, 4080 )
+region_rect = Rect2( 0, 0, 10080, 10080 )
 
 [node name="Camera2D" parent="." instance=ExtResource( 5 )]
 position = Vector2( -188.813, -129.035 )
@@ -98,10 +24,10 @@ rotating = true
 zoom = Vector2( 0.2, 0.2 )
 
 [node name="TopLeft" parent="Camera2D/Limits" index="0"]
-position = Vector2( -1578.76, -1161.96 )
+position = Vector2( -2040, -2032 )
 
 [node name="BottomRight" parent="Camera2D/Limits" index="1"]
-position = Vector2( 1764.57, 1156.21 )
+position = Vector2( 2016, 2024 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 3 )
@@ -118,83 +44,47 @@ texture = ExtResource( 8 )
 
 [node name="Planets" type="Node" parent="."]
 
-[node name="Planet" parent="Planets" instance=ExtResource( 4 )]
-position = Vector2( -188.025, -100.373 )
-orbitRadius = 0
-
-[node name="Planet5" type="RigidBody2D" parent="Planets" groups=[
-"Planet",
-]]
-position = Vector2( -320, -160 )
-script = ExtResource( 2 )
-orbitRadius = 1000
-orbitTime = 160
-planetType = 5
-
-[node name="Radius" type="CollisionShape2D" parent="Planets/Planet5"]
-shape = SubResource( 1 )
-
-[node name="Back" type="AnimatedSprite" parent="Planets/Planet5"]
-frames = SubResource( 7 )
-animation = "Medium"
-
-[node name="Atmosphere" type="Area2D" parent="Planets/Planet5"]
-
-[node name="GravityEffect" type="CollisionShape2D" parent="Planets/Planet5/Atmosphere"]
-modulate = Color( 0.0941176, 0.584314, 0.172549, 1 )
-self_modulate = Color( 0.219608, 0.831373, 0.329412, 1 )
-shape = SubResource( 2 )
-
-[node name="GravityCentre" type="Position2D" parent="Planets/Planet5"]
-
-[node name="Front" type="AnimatedSprite" parent="Planets/Planet5"]
-frames = SubResource( 12 )
-animation = "Medium"
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Planet2" parent="Planets" instance=ExtResource( 4 )]
-position = Vector2( -96, -160 )
-orbitRadius = 40
-orbitTime = 100
+[node name="Planet7" parent="Planets" instance=ExtResource( 4 )]
+orbitRadius = 18
+orbitTime = 560
 planetType = 1
 
-[node name="Planet6" parent="Planets" instance=ExtResource( 4 )]
-position = Vector2( -320, -160 )
-orbitRadius = -1000
-orbitTime = 160
-planetType = 1
-
-[node name="Planet3" parent="Planets" instance=ExtResource( 4 )]
-position = Vector2( -126.797, -26.1691 )
-orbitRadius = 0
+[node name="Planet8" parent="Planets" instance=ExtResource( 4 )]
+orbitRadius = 50
+orbitTime = 560
 planetType = 2
 
-[node name="Planet4" parent="Planets" instance=ExtResource( 4 )]
-position = Vector2( 32, -32 )
-orbitRadius = 1000
-orbitTime = 162
+[node name="Planet9" parent="Planets" instance=ExtResource( 4 )]
+orbitRadius = 60
+orbitTime = 669
 orbitDirection = -1
 planetType = 3
+
+[node name="Planet10" parent="Planets" instance=ExtResource( 4 )]
+orbitRadius = 71
+orbitTime = 563
+planetType = 4
+
+[node name="Planet11" parent="Planets" instance=ExtResource( 4 )]
+orbitRadius = 85
+orbitTime = 668
+orbitDirection = -1
 
 [node name="Player" parent="." groups=[
 "Player",
 ] instance=ExtResource( 1 )]
-position = Vector2( -188.813, -129.035 )
+position = Vector2( -329.654, -26.401 )
+
+[node name="EnergyDispencer" parent="." instance=ExtResource( 2 )]
+position = Vector2( -320, 0 )
 
 [node name="Boxes" type="Node" parent="."]
 
 [node name="Box" parent="Boxes" instance=ExtResource( 7 )]
-position = Vector2( -192, -160 )
+position = Vector2( 88, 16 )
 
 [node name="Box2" parent="Boxes" instance=ExtResource( 7 )]
-position = Vector2( -160, -128 )
 
-[node name="Box3" parent="Boxes" instance=ExtResource( 7 )]
-position = Vector2( -160, -160 )
-
-[node name="Box4" parent="Boxes" instance=ExtResource( 7 )]
-position = Vector2( -160, -192 )
+[node name="Sun" parent="." instance=ExtResource( 13 )]
 
 [editable path="Camera2D"]

@@ -48,7 +48,7 @@ func _physics_process(delta):
 	#If this planet orbits anything
 	if(orbitRadius):
 		rot += (delta*60) / orbitTime
-		var v = (2*PI*orbitRadius) / orbitTime
+		var v = (2*PI*orbitRadius)
 		velocity = Vector2(v * sin(rot), v * cos(rot))
 
 		transform.origin = originalPosition + velocity

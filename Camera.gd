@@ -1,6 +1,7 @@
 extends Camera2D
 
 const TurnTowards = preload("res://turn_towards.gd")
+const distToEdges = 1000
 
 onready var topleft = $Limits/TopLeft
 onready var bottomRight = $Limits/BottomRight
@@ -23,3 +24,15 @@ func _physics_process(delta):
 	set_global_position(player[0].get_global_position())
 	rot = turn_towards.rot_towards(rot, player[0].get_rotation(), delta)
 	set_rotation(rot)
+	#LEFT
+	if(position.x-limit_left < distToEdges):
+		set_zoom(Vector2(0.2 + (distToEdges/(position.x-limit_left))-1, 0.2 + (distToEdges/(position.x-limit_left))-1))
+	#RIGHT
+	if(limit_right-position.x < distToEdges):
+		set_zoom(Vector2(0.2 + (distToEdges/(limit_right-position.x))-1, 0.2 + (distToEdges/(limit_right-position.x))-1))
+	#TOP
+	if(position.y-limit_top < distToEdges):
+		set_zoom(Vector2(0.2 + (distToEdges/(position.y-limit_top))-1, 0.2 + (distToEdges/(position.y-limit_top))-1))
+	#BOTTOM
+	if(limit_bottom-position.y < distToEdges):
+		set_zoom(Vector2(0.2 + (distToEdges/(limit_bottom-position.y))-1, 0.2 + (distToEdges/(limit_bottom-position.y))-1))

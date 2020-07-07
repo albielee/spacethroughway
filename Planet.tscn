@@ -1,15 +1,78 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
-[ext_resource path="res://Planet.gd" type="Script" id=1]
 [ext_resource path="res://Planets/planet-sheet.png" type="Texture" id=2]
 [ext_resource path="res://Planets/planet_front-sheet.png" type="Texture" id=3]
 [ext_resource path="res://Planets/planet_medium_back.png" type="Texture" id=4]
 [ext_resource path="res://Planets/planet_medium_front.png" type="Texture" id=5]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 32.0
+[sub_resource type="GDScript" id=15]
+script/source = "extends RigidBody2D
 
-[sub_resource type="AtlasTexture" id=15]
+export var gravityForce = 100
+export var orbitRadius = 100
+export var orbitTime = 10
+export var orbitDirection = 1
+export var planetType = 0
+
+onready var gravityCentre = $GravityCentre
+onready var atmos = $Atmosphere
+onready var originalPosition = transform.origin
+onready var collisionRadius = get_node(\"Radius\").duplicate()
+
+var velocity = Vector2.ZERO
+var rot = 0
+var angularSpeed = 0
+var radius = 0
+var effectRadius = 64
+
+
+func _ready():
+	atmos.set_gravity_is_point(true)
+	
+	var changeType = 0
+	if(planetType <= 3):	
+		$Back.set_animation(\"Small\")
+		$Front.set_animation(\"Small\")
+		radius = 15
+		effectRadius = radius*2.5
+	if(planetType > 3 && planetType <= 8):	
+		$Back.set_animation(\"Medium\")
+		$Front.set_animation(\"Medium\")
+
+		radius = 30
+		effectRadius = radius*2.5
+		changeType = 4
+	
+	collisionRadius.get_shape().set_radius(radius)
+	set_mode(MODE_KINEMATIC)
+	atmos.get_node(\"GravityEffect\").get_shape().set_radius(effectRadius)
+	#Set planet sprite
+	$Back.frame = planetType-changeType
+	$Front.frame = planetType-changeType
+	#Set sprite depths
+	$Front.z_index = 1000
+
+func _physics_process(delta):
+	#If this planet orbits anything
+	if(orbitRadius):
+		rot += (delta*60) / orbitTime
+		var v = (2*PI*orbitRadius)
+		velocity = Vector2(v * sin(rot), v * cos(rot))
+
+		transform.origin = originalPosition + velocity
+	#var gravityCentre = $GravityCentre
+	
+
+func is_in_gravity_field(pos):
+	return gravityCentre.get_global_position().distance_to(pos) <= effectRadius
+
+"
+
+[sub_resource type="CircleShape2D" id=1]
+resource_local_to_scene = true
+radius = 15.8462
+
+[sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 68, 68 )
 
@@ -31,7 +94,7 @@ region = Rect2( 114, 0, 38, 38 )
 
 [sub_resource type="SpriteFrames" id=7]
 animations = [ {
-"frames": [ SubResource( 15 ) ],
+"frames": [ SubResource( 2 ) ],
 "loop": true,
 "name": "Medium",
 "speed": 5.0
@@ -42,46 +105,49 @@ animations = [ {
 "speed": 0.0
 } ]
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=8]
 radius = 46.1395
 
-[sub_resource type="AtlasTexture" id=14]
+[sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 68, 68 )
 
-[sub_resource type="AtlasTexture" id=8]
+[sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 38, 38 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 3 )
 region = Rect2( 38, 0, 38, 38 )
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 3 )
 region = Rect2( 76, 0, 38, 38 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 3 )
 region = Rect2( 114, 0, 38, 38 )
 
-[sub_resource type="SpriteFrames" id=12]
+[sub_resource type="SpriteFrames" id=14]
 animations = [ {
-"frames": [ SubResource( 14 ) ],
+"frames": [ SubResource( 9 ) ],
 "loop": true,
 "name": "Medium",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
 "loop": true,
 "name": "Small",
 "speed": 0.0
 } ]
 
+[sub_resource type="OccluderPolygon2D" id=16]
+polygon = PoolVector2Array( -15.9947, -0.00895691, -10.8763, -10.9545, -0.00949097, -16.073, 11.0936, -11.1908, 15.7395, -0.00895691, 11.4085, 10.3854, -0.00949097, 15.8975, -11.0338, 11.1728 )
+
 [node name="Planet" type="RigidBody2D" groups=[
 "Planet",
 ]]
-script = ExtResource( 1 )
+script = SubResource( 15 )
 
 [node name="Radius" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -95,10 +161,13 @@ animation = "Small"
 [node name="GravityEffect" type="CollisionShape2D" parent="Atmosphere"]
 modulate = Color( 0.0941176, 0.584314, 0.172549, 1 )
 self_modulate = Color( 0.219608, 0.831373, 0.329412, 1 )
-shape = SubResource( 2 )
+shape = SubResource( 8 )
 
 [node name="GravityCentre" type="Position2D" parent="."]
 
 [node name="Front" type="AnimatedSprite" parent="."]
-frames = SubResource( 12 )
+frames = SubResource( 14 )
 animation = "Small"
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource( 16 )

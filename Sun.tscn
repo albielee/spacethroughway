@@ -1,0 +1,151 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Sun.gd" type="Script" id=1]
+[ext_resource path="res://sunLightCast.png" type="Texture" id=2]
+
+[node name="Sun" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Light_1" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_2" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_3" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_4" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_5" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_6" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_7" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_8" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_9" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_10" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_11" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_12" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_13" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_14" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_15" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_16" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_17" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_18" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_19" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_20" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_21" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_22" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_23" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_24" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_25" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_26" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_27" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_28" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_29" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_30" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_31" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_32" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_33" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_34" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_35" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="Light_36" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+shadow_enabled = true
