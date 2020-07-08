@@ -86,5 +86,6 @@ position = Vector2( 88, 16 )
 [node name="Box2" parent="Boxes" instance=ExtResource( 7 )]
 
 [node name="Sun" parent="." instance=ExtResource( 13 )]
+position = Vector2( 160, -128 )
 
 [editable path="Camera2D"]

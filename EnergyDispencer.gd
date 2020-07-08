@@ -12,7 +12,7 @@ func _process(delta):
 	#update positions
 	set_position(planet.position + Vector2(0,planet.radius))
 	
-	plug.position = player.position
+	#plug.position = player.position
 
 func get_closest_planet():
 	var distance = -1
