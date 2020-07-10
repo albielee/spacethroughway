@@ -1,6 +1,5 @@
 extends Node2D
 
-
 export (float) var length = 30
 export (float) var constrain = 1
 export (Vector2) var gravity = Vector2(0,9.8)
@@ -10,8 +9,10 @@ export (bool) var end_pin = true
 
 var pos: PoolVector2Array
 var pos_ex: PoolVector2Array
+var lightLine: PoolVector2Array
 var count: int
 var initial_pos: Vector2
+var n = 0
 
 #Rope is created with energy dispencers
 onready var energy_dispencer = get_parent()
@@ -19,7 +20,7 @@ onready var plug = energy_dispencer.get_node("Plug")
 onready var dispencer = energy_dispencer.get_node("Dispencer")
 
 func _ready():
-	#initial_pos = energy_dispencer.global_position
+	initial_pos = energy_dispencer.global_position
 	count = get_count(length)
 	resize_arrays()
 	init_position()
@@ -31,31 +32,29 @@ func get_count(distance: float):
 func resize_arrays():
 	pos.resize(count)
 	pos_ex.resize(count)
+	lightLine.resize(count)
 
 func init_position():
-	#global_position = initial_pos
+	global_position = initial_pos
 	for i in range(count):
-		pos[i] = position + Vector2(constrain *i, 0)
-		pos_ex[i] = position + Vector2(constrain *i, 0)
+		pos[i] = global_position + Vector2(constrain *i, 0)
+		pos_ex[i] = global_position + Vector2(constrain *i, 0)
+		lightLine[i] = pos[i]
 	position = Vector2.ZERO
 
 func _process(delta):
-	if Input.is_action_pressed("left_click"):	#Move start point
-		pos[0] = get_global_mouse_position()
-		pos_ex[0] = get_global_mouse_position()
-		#find the best feel length ratio
-		print("length ratio to distance ",length/pos[count-1].distance_to(pos[0]))
-	if Input.is_action_pressed("right_click"):	#Move start point
-		pos[count-1] = get_global_mouse_position()
-		pos_ex[count-1] = get_global_mouse_position()
 	update_position(delta)
 	update_points(delta)
 	update_distance()
-	#print(pos[0])
-	#print(pos[count-1])
-	#update_distance()	#Repeat to get tighter rope
-	#update_distance()
+
 	$Line2D.points = pos
+	$LightLine.points = pos
+	#modulate the width of the light from line
+	if(n < 2.5):
+		n += 0.003
+	else:
+		n = 0.6
+	$LightLine.width = sin(n)*6
 
 func update_position(delta):
 	#plug end

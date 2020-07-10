@@ -123,6 +123,7 @@ polygon = PoolVector2Array( 0.3125, -7.75, -3.6875, -7.75, -3.6875, -1.75, -7.68
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 1.6875, -0.25 )
+collision_layer = 2
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -136,6 +137,7 @@ lifetime = 0.2
 speed_scale = 1.2
 explosiveness = 0.11
 randomness = 0.15
+local_coords = false
 process_material = SubResource( 2 )
 
 [node name="ParticlesJetDown" type="Particles2D" parent="."]
@@ -145,6 +147,7 @@ amount = 16
 lifetime = 0.2
 explosiveness = 0.12
 randomness = 0.38
+local_coords = false
 process_material = SubResource( 2 )
 
 [node name="ParticlesJetUp" type="Particles2D" parent="."]
@@ -154,6 +157,7 @@ amount = 16
 lifetime = 0.2
 explosiveness = 0.12
 randomness = 0.38
+local_coords = false
 process_material = SubResource( 2 )
 
 [node name="ParticlesJetLeft" type="Particles2D" parent="."]
@@ -164,6 +168,7 @@ amount = 16
 lifetime = 0.2
 explosiveness = 0.12
 randomness = 0.38
+local_coords = false
 process_material = SubResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

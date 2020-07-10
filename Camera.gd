@@ -1,13 +1,12 @@
 extends Camera2D
 
-const TurnTowards = preload("res://turn_towards.gd")
 const distToEdges = 1000
 
 onready var topleft = $Limits/TopLeft
 onready var bottomRight = $Limits/BottomRight
 onready var player = get_tree().get_nodes_in_group("Player")
 onready var viewport = get_viewport_transform()
-onready var turn_towards = TurnTowards.new()
+onready var turn_towards = preload("res://turnTowards.gd").new()
 
 var maxRotateSpeed = 0.03
 var rotateSpeed = 0.00

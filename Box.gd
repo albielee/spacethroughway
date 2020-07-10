@@ -7,9 +7,7 @@ var velocity = Vector2()
 var closestPlanet = null
 var inSpace = true
 
-const TurnTowards = preload("res://turn_towards.gd")
-
-onready var turn_towards = TurnTowards.new()
+onready var turn_towards = preload("res://turnTowards.gd").new()
 onready var sprite = $Sprite
 
 # Called when the node enters the scene tree for the first time.

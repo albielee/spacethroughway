@@ -8,11 +8,16 @@
 [sub_resource type="GDScript" id=15]
 script/source = "extends RigidBody2D
 
+const Dispencer = preload(\"res://EnergyDispencer.tscn\")
+
 export var gravityForce = 100
 export var orbitRadius = 100
 export var orbitTime = 10
 export var orbitDirection = 1
 export var planetType = 0
+export var hasDispencer = false
+export var targetDispencer = 0
+export var dispencerValue = 0
 
 onready var gravityCentre = $GravityCentre
 onready var atmos = $Atmosphere
@@ -27,6 +32,14 @@ var effectRadius = 64
 
 
 func _ready():
+	#Create energy dispencer
+	if(hasDispencer):
+		var dis = Dispencer.instance()
+		self.add_child(dis)
+		dis.planet = self
+		dis.targetDis = targetDispencer
+		dis.dispencerValue = dispencerValue
+	
 	atmos.set_gravity_is_point(true)
 	
 	var changeType = 0
@@ -51,6 +64,11 @@ func _ready():
 	$Front.frame = planetType-changeType
 	#Set sprite depths
 	$Front.z_index = 1000
+	$Back.z_index = 100
+
+func _draw():
+	if Engine.editor_hint:
+		draw_circle(Vector2(position.x, position.y + orbitRadius), radius, Color(255,255,255,0.5))
 
 func _physics_process(delta):
 	#If this planet orbits anything
@@ -156,7 +174,9 @@ shape = SubResource( 1 )
 frames = SubResource( 7 )
 animation = "Small"
 
-[node name="Atmosphere" type="Area2D" parent="."]
+[node name="Atmosphere" type="Area2D" parent="." groups=[
+"Atmosphere",
+]]
 
 [node name="GravityEffect" type="CollisionShape2D" parent="Atmosphere"]
 modulate = Color( 0.0941176, 0.584314, 0.172549, 1 )

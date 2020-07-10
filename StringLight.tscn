@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://stringLightImage.png" type="Texture" id=1]
+
+[node name="StringLight" type="Light2D"]
+texture = ExtResource( 1 )
+texture_scale = 0.51
+color = Color( 0, 0.952941, 1, 1 )
+energy = 1.25

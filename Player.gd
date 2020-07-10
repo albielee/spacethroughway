@@ -17,7 +17,7 @@ const JUMP_SPEED = 3000
 const ACCELERATION = 50
 const FRICTION = 0.1
 const SPACE_FRICTION = 0.02
-const TurnTowards = preload("res://turn_towards.gd")
+const TurnTowards = preload("res://turnTowards.gd")
 
 onready var ANIM = $AnimatedSprite
 onready var particleJetUp = $ParticlesJetUp
@@ -41,6 +41,7 @@ enum {
 
 func _ready():
 	set_physics_process(true)
+	z_index = 100
 
 func _physics_process(delta):
 	
@@ -58,8 +59,8 @@ func _physics_process(delta):
 			#invert y velocity so player moves towards planet centre
 			if(speed.y < 0):
 				speed.y = -speed.y
-			if(speed.x < 0):
-				speed.x = -speed.x
+			#if(speed.x < 0):
+			#	speed.x = -speed.x
 	elif(stateDelay == 0):
 		state = SPACE
 

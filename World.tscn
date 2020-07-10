@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://EnergyDispencer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Shark.tscn" type="PackedScene" id=2]
 [ext_resource path="res://JungleDirtTileSet.tres" type="TileSet" id=3]
 [ext_resource path="res://Planet.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Camera.tscn" type="PackedScene" id=5]
@@ -13,7 +13,7 @@
 [node name="World" type="Node"]
 
 [node name="StarsBackground" type="Sprite" parent="."]
-position = Vector2( 28.0005, -0.000244141 )
+position = Vector2( 32, 0 )
 texture = ExtResource( 6 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 10080, 10080 )
@@ -21,7 +21,7 @@ region_rect = Rect2( 0, 0, 10080, 10080 )
 [node name="Camera2D" parent="." instance=ExtResource( 5 )]
 position = Vector2( -188.813, -129.035 )
 rotating = true
-zoom = Vector2( 0.2, 0.2 )
+zoom = Vector2( 1, 1 )
 
 [node name="TopLeft" parent="Camera2D/Limits" index="0"]
 position = Vector2( -2040, -2032 )
@@ -38,7 +38,7 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -64, -32 )
+position = Vector2( 424, -112 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 8 )
 
@@ -46,37 +46,67 @@ texture = ExtResource( 8 )
 
 [node name="Planet7" parent="Planets" instance=ExtResource( 4 )]
 orbitRadius = 18
-orbitTime = 560
+orbitTime = 945
 planetType = 1
+hasDispencer = true
+targetDispencer = 1
 
 [node name="Planet8" parent="Planets" instance=ExtResource( 4 )]
 orbitRadius = 50
-orbitTime = 560
+orbitTime = 1050
 planetType = 2
+hasDispencer = true
+targetDispencer = 2
+dispencerValue = 1
 
 [node name="Planet9" parent="Planets" instance=ExtResource( 4 )]
 orbitRadius = 60
-orbitTime = 669
+orbitTime = 735
 orbitDirection = -1
 planetType = 3
+hasDispencer = true
+targetDispencer = 3
+dispencerValue = 2
 
 [node name="Planet10" parent="Planets" instance=ExtResource( 4 )]
 orbitRadius = 71
-orbitTime = 563
+orbitTime = 685
 planetType = 4
+hasDispencer = true
+targetDispencer = 4
+dispencerValue = 3
 
 [node name="Planet11" parent="Planets" instance=ExtResource( 4 )]
 orbitRadius = 85
-orbitTime = 668
+orbitTime = 1189
 orbitDirection = -1
+hasDispencer = true
+dispencerValue = 4
+
+[node name="Sharks" type="Node" parent="."]
+
+[node name="Shark" parent="Sharks" instance=ExtResource( 2 )]
+position = Vector2( -488, 16 )
+
+[node name="Shark2" parent="Sharks" instance=ExtResource( 2 )]
+position = Vector2( -496, -40 )
+
+[node name="Shark3" parent="Sharks" instance=ExtResource( 2 )]
+position = Vector2( -528, 24 )
+
+[node name="Shark4" parent="Sharks" instance=ExtResource( 2 )]
+position = Vector2( -496, 80 )
+
+[node name="Shark5" parent="Sharks" instance=ExtResource( 2 )]
+position = Vector2( -560, 56 )
+
+[node name="Shark6" parent="Sharks" instance=ExtResource( 2 )]
+position = Vector2( -544, -24 )
 
 [node name="Player" parent="." groups=[
 "Player",
 ] instance=ExtResource( 1 )]
-position = Vector2( -329.654, -26.401 )
-
-[node name="EnergyDispencer" parent="." instance=ExtResource( 2 )]
-position = Vector2( -320, 0 )
+position = Vector2( -424, -16 )
 
 [node name="Boxes" type="Node" parent="."]
 
@@ -86,6 +116,5 @@ position = Vector2( 88, 16 )
 [node name="Box2" parent="Boxes" instance=ExtResource( 7 )]
 
 [node name="Sun" parent="." instance=ExtResource( 13 )]
-position = Vector2( 160, -128 )
 
 [editable path="Camera2D"]
